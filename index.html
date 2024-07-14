@@ -14,16 +14,69 @@
 		</style>  
 	</head>
 	<body style="width: 100%;height: 1200px;">
-		<div class="pio-container left" style="z-index: 100;">
-		    <div class="pio-action"></div>
-		    <canvas id="pio" width="130" height="360"></canvas>
+		<div id="options-container" style="position: absolute;right: 0px; height: 600px; display: flex; flex-direction: column;">  
+		    <!-- 单选按钮将通过JavaScript动态添加到这里 -->  
 		</div>
+		<div class="pio-container left" >
+		      <div class="pio-action"></div>
+		      <canvas id="pio" width="600" height="900" style="width: 550px;height: 675px"></canvas>
+		    </div>
 	</body>
 	<!-- 引用 Live2D 核心组件 -->
 	<script src='static/l2d.js'></script>
 	<!-- 引用看板娘交互组件 -->
 	<script src='static/pio.js'></script>
+	
 	<script>
+	// 函数：根据选项数组生成单选按钮  
+	    function generateRadioButtons(options) {  
+	        const container = document.getElementById('options-container');  
+	        // 清空之前的选项  
+	        container.innerHTML = '';  
+	  
+	        options.forEach((option, index) => {  
+	            // 通过'/'分割字符串，并取倒数第二个元素（如果存在）  
+				const parts = option.split('/');  
+				const displayText = parts.length > 1 ? parts[parts.length - 2] : option; // 如果不足两个部分，则显示原字符串  
+		  
+				const radio = document.createElement('input');  
+				radio.type = 'radio';  
+				radio.name = 'optionGroup'; // 确保它们是同一组  
+				radio.value = option; // 保持原字符串作为值  
+				radio.id = `option-${index}`;  
+				radio.onchange = function() {  
+					console.log(`选中的值是: ${this.value}`);  
+					onOptionSelected(this.value);  
+				};  
+		  
+				const label = document.createElement('label');  
+				label.htmlFor = `option-${index}`;  
+				label.textContent = displayText; // 使用处理后的字符串作为显示文本  
+		  
+				const div = document.createElement('div');  
+				div.className = 'radio-option';  
+				div.appendChild(radio);  
+				div.appendChild(label);  
+		  
+				container.appendChild(div);  
+			});  
+	    }  
+	  
+	    // 选中选项时调用的函数  
+	    function onOptionSelected(value) {  
+	        // alert(`你选择了: ${value}`); 
+			loadlive2d("pio", value);
+	    }  
+	  
+	    // 页面加载完成后生成单选按钮  
+	    window.onload = function() {  
+	        generateRadioButtons(options);  
+	    };  
+	
+	</script>
+	<script>
+		const models = [
+			'model/girls-frontline/88type_1809/index.json', 'model/girls-frontline/95type_3702/index.json', 'model/girls-frontline/95type_405/index.json', 'model/girls-frontline/97type_3703/index.json', 'model/girls-frontline/aa12_2403/index.json', 'model/girls-frontline/ads_3601/index.json', 'model/girls-frontline/aek999_1505/index.json', 'model/girls-frontline/AK12/index.json', 'model/girls-frontline/AN-94/index.json', 'model/girls-frontline/carcano1891_2201/index.json', 'model/girls-frontline/carcano1938_2904/index.json', 'model/girls-frontline/carcano1938_2905/index.json', 'model/girls-frontline/cbjms_3503/index.json', 'model/girls-frontline/contender_2302/index.json', 'model/girls-frontline/dp12_4201/index.json', 'model/girls-frontline/DSR50_2101/index.json', 'model/girls-frontline/g11_4102/index.json', 'model/girls-frontline/G36C_1202/index.json', 'model/girls-frontline/g36c_3802/index.json', 'model/girls-frontline/g36_1904/index.json', 'model/girls-frontline/g36_2407/index.json', 'model/girls-frontline/G41_2401/index.json', 'model/girls-frontline/hk416_3401/index.json', 'model/girls-frontline/HK416_805/index.json', 'model/girls-frontline/K2_3301/index.json', 'model/girls-frontline/kp31/index.json', 'model/girls-frontline/lewis_3502/index.json', 'model/girls-frontline/m1903_5/index.json', 'model/girls-frontline/m590_1806/index.json', 'model/girls-frontline/m950a_2303/index.json', 'model/girls-frontline/mdr_2603/index.json', 'model/girls-frontline/ots14_1203/index.json', 'model/girls-frontline/ots14_3001/index.json', 'model/girls-frontline/p22_3902/index.json', 'model/girls-frontline/pa15_4202/index.json', 'model/girls-frontline/pkp_1201/index.json', 'model/girls-frontline/px4storm_2801/index.json', 'model/girls-frontline/qbu88_3801/index.json', 'model/girls-frontline/r3mp_3704/index.json', 'model/girls-frontline/r93_3501/index.json', 'model/girls-frontline/saiga12_3901/index.json', 'model/girls-frontline/sat8_3602/index.json', 'model/girls-frontline/sr3mp_4101/index.json', 'model/girls-frontline/tac50_2602/index.json', 'model/girls-frontline/type64-ar_2901/index.json', 'model/girls-frontline/type88_3504/index.json', 'model/girls-frontline/ump45_3403/index.json', 'model/girls-frontline/ump9_3404/index.json', 'model/girls-frontline/wa2000_306/index.json', 'model/girls-frontline/welrod_1401/index.json', 'model/girls-frontline-destroy/88type_1809/index.json', 'model/girls-frontline-destroy/95type_3702/index.json', 'model/girls-frontline-destroy/95type_405/index.json', 'model/girls-frontline-destroy/97type_3703/index.json', 'model/girls-frontline-destroy/aa12_2403/index.json', 'model/girls-frontline-destroy/ads_3601/index.json', 'model/girls-frontline-destroy/aek999_1505/index.json', 'model/girls-frontline-destroy/AK12/index.json', 'model/girls-frontline-destroy/AN-94/index.json', 'model/girls-frontline-destroy/carcano1891_2201/index.json', 'model/girls-frontline-destroy/carcano1938_2904/index.json', 'model/girls-frontline-destroy/carcano1938_2905/index.json', 'model/girls-frontline-destroy/cbjms_3503/index.json', 'model/girls-frontline-destroy/contender_2302/index.json', 'model/girls-frontline-destroy/dp12_4201/index.json', 'model/girls-frontline-destroy/DSR50_1801/index.json', 'model/girls-frontline-destroy/DSR50_2101/index.json', 'model/girls-frontline-destroy/g11_4102/index.json', 'model/girls-frontline-destroy/G36C_1202/index.json', 'model/girls-frontline-destroy/g36c_3802/index.json', 'model/girls-frontline-destroy/g36_1904/index.json', 'model/girls-frontline-destroy/g36_2407/index.json', 'model/girls-frontline-destroy/G41_2401/index.json', 'model/girls-frontline-destroy/hk416_3401/index.json', 'model/girls-frontline-destroy/HK416_805/index.json', 'model/girls-frontline-destroy/K2_3301/index.json', 'model/girls-frontline-destroy/kp31/index.json', 'model/girls-frontline-destroy/lewis_3502/index.json', 'model/girls-frontline-destroy/m1903_5/index.json', 'model/girls-frontline-destroy/m590_1806/index.json', 'model/girls-frontline-destroy/m950a_2303/index.json', 'model/girls-frontline-destroy/mdr_2603/index.json', 'model/girls-frontline-destroy/ots14_1203/index.json', 'model/girls-frontline-destroy/ots14_3001/index.json', 'model/girls-frontline-destroy/p22_3902/index.json', 'model/girls-frontline-destroy/pa15_4202/index.json', 'model/girls-frontline-destroy/pkp_1201/index.json', 'model/girls-frontline-destroy/px4storm_2801/index.json', 'model/girls-frontline-destroy/qbu88_3801/index.json', 'model/girls-frontline-destroy/r3mp_3704/index.json', 'model/girls-frontline-destroy/r93_3501/index.json', 'model/girls-frontline-destroy/rfb_1601/index.json', 'model/girls-frontline-destroy/saiga12_3901/index.json', 'model/girls-frontline-destroy/sat8_3602/index.json', 'model/girls-frontline-destroy/sr3mp_4101/index.json', 'model/girls-frontline-destroy/tac50_2602/index.json', 'model/girls-frontline-destroy/type64-ar_2901/index.json', 'model/girls-frontline-destroy/type88_3504/index.json', 'model/girls-frontline-destroy/ump45_3403/index.json', 'model/girls-frontline-destroy/ump9_3404/index.json', 'model/girls-frontline-destroy/wa2000_306/index.json', 'model/girls-frontline-destroy/welrod_1401/index.json', 'models/33/model.json', 'models/bronya/model.json', 'models/koharu/model.json', 'models/pio/model.json', 'models/umaru/model.json', 'models/work platelet/model.json']
 		var pio = new Paul_Pio({
 		    "mode": "draggable",
 		    "hidden": true,
@@ -37,10 +90,9 @@
 		        ]
 		    },
 		    "night": "single.night()",
-		    "model": ["./models/33/model.json","./models/bronya/model.json","./models/koharu/model.json",
-			"./models/model.json","./models/platelet/model.json","./models/umaru/model.json",
-			"./models/work platelet/model.json"]
+		    "model": models
 		});
+		generateRadioButtons(models)
 	</script>
 	
 	<script>
@@ -63,4 +115,5 @@
 		    }  
 		};  
 	</script>
+	
 </html>

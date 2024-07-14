@@ -4,7 +4,9 @@
 
 本插件不存在任何依赖的样式和库，在后续版本当中我会逐渐实现一些有趣的功能。
 
-本项目for自Pio,用于个人测试和留档,预览请clone项目并访问[demo](index.html) 页面 `index.html`
+本项目fork自Pio,用于个人测试和留档,预览请clone项目并访问[demo](index.html) 页面 `index.html`,并自行调整画布高度。
+
+[model](./model)目录下的模型来自[Fog-Forest/live2d](https://github.com/Fog-Forest/live2d)
 
 
 

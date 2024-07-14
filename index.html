@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href='static/pio.css' rel='stylesheet' type='text/css'/>
+		<meta charset="utf-8">
+		<title>demo</title>
+		<style>  
+			.day {  
+				background-color: #f0f0f0; /* 日间模式背景色 */  
+			}  
+			.night {  
+				background-color: #333; /* 夜间模式背景色 */  
+			}  
+		</style>  
+	</head>
+	<body style="width: 100%;height: 1200px;">
+		<div class="pio-container left" style="z-index: 100;">
+		    <div class="pio-action"></div>
+		    <canvas id="pio" width="130" height="360"></canvas>
+		</div>
+	</body>
+	<!-- 引用 Live2D 核心组件 -->
+	<script src='static/l2d.js'></script>
+	<!-- 引用看板娘交互组件 -->
+	<script src='static/pio.js'></script>
+	<script>
+		var pio = new Paul_Pio({
+		    "mode": "draggable",
+		    "hidden": true,
+		    "content": {
+		        "welcome": ["欢迎来到保罗的小宇宙！", "今天天气不错，一起来玩吧！", "博主每天都有些折腾记录，欢迎前往他的小窝阅读~"],
+		        "custom": [
+		            {"selector": ".comment-form", "text": "欢迎参与本文评论，别发小广告噢~"},
+		            {"selector": ".home-social a:last-child", "text": "在这里可以了解博主的日常噢~"},
+		            {"selector": ".post-item a", "type": "read"},
+		            {"selector": ".post-content a, .page-content a", "type": "link"}
+		        ]
+		    },
+		    "night": "single.night()",
+		    "model": ["./models/33/model.json","./models/bronya/model.json","./models/koharu/model.json",
+			"./models/model.json","./models/platelet/model.json","./models/umaru/model.json",
+			"./models/work platelet/model.json"]
+		});
+	</script>
+	
+	<script>
+		var single = {  
+		    isNightMode: false, // 用来跟踪当前是否是夜间模式  
+		  
+		    night: function() {  
+		        // 切换夜间模式状态  
+		        this.isNightMode = !this.isNightMode;  
+		  
+		        // 根据当前模式更新body的类  
+		        var body = document.body;  
+		        if (this.isNightMode) {  
+		            body.classList.add('night');  
+		            body.classList.remove('day');  
+		        } else {  
+		            body.classList.add('day');  
+		            body.classList.remove('night');  
+		        }  
+		    }  
+		};  
+	</script>
+</html>
